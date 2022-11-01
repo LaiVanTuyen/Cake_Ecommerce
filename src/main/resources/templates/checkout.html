@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmentes :: html_head ('Thanh toán')"></head>
+<head>
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/checkout.css}">
+</head>
+
+<body>
+    <!-- back to top -->
+    <div th:replace="fragmentes :: back_to_top"></div>
+    <!-- header -->
+    <div th:replace="fragmentes :: header"></div>
+
+    <!-- start nav -->
+    <nav th:replace="fragmentes :: navbar"></nav>
+    
+
+    <!-- start body -->
+    <div class="body py-5">
+        <div class="container">
+            <div class="main w-75 m-auto">
+                <form method="post" class="row needs-validation" th:action="@{/checkout}" novalidate>
+                    <div class="checkout-address col-md-7 col-lg-7 border-end">
+                        <div class="payment-detail">
+                            <h5 class="mb-3">Thông tin giao hàng</h5>
+                            <select class="form-control input my-3" th:if="${user.userId != null}" onchange="showAddressInfor()" id="order-address-select">
+                                <option value="" selected disabled>Chọn địa chỉ đã lưu</option>
+                                <option value="" th:each="address: ${user.getUserAddressList()}"
+                                        th:text="*{address.detail + '-' + address.ward + '-' + address.district + '-' + address.province}"
+                                        th:attr="address-id = *{address.addressId}" onclick="showAddressInfor()">
+                                </option>
+                            </select>
+                            <input class="form-control input mb-3" type="text" placeholder="Họ và tên"
+                            id="order-buyerName-input" th:field="${order.buyerName}" required>
+                            <input class="form-control input my-3" type="number"  id="order-phonenum-input" placeholder="Số điện thoại"
+                            th:field="${order.phoneNumber}" required>
+                            <div class="d-flex my-3">
+                                <input class="form-control input w-50" type="text"  id="order-province-input" placeholder="Tỉnh/Thành phố"
+                                th:field="${order.province}" required>
+                                <input class="form-control input w-50 ms-2" type="text" id="order-district-input" placeholder="Quận/Huyện"
+                                th:field="${order.district}" required>
+                            </div>
+                            <input class="form-control input my-3 w-50" type="text"  id="order-ward-input" placeholder="Phường/Xã"
+                            th:field="${order.ward}" required>
+                            <input class="form-control input my-3" type="text" placeholder="Địa chỉ" id="order-detail-input"
+                            th:field="${order.detail}" required>
+                            <div class="invalid-feedback">
+                                Vui lòng điển đẩy đủ thông tin.
+                            </div>
+                        </div>
+                        <div class="payment-type pt-4">
+                            <h5 class="mb-3">Hình thức thanh toán</h5>
+                            <input type="radio" id="button-cod-payment" class="form-check-input" name="payment-type-radio" checked>
+                            <label for="button-cod-payment">Thanh toán khi nhận hàng</label>
+                            <br>
+                            <input type="radio" id="button-banking-payment" class="form-check-input" name="payment-type-radio" disabled>
+                            <label for="button-banking-payment" class="text-secondary">Thanh toán qua TKNH (đang phát triển)</label>
+                            <br>
+                            <input type="radio" id="button-momo-payment" class="form-check-input" name="payment-type-radio" disabled>
+                            <label for="button-momo-payment" class="text-secondary">Thanh toán qua Momo (đang phát triển)</label>
+                        </div>
+                    </div>
+                    <div class="checkout-control col-md-5 col-lg-5 border-start" style="background-color: rgb(250, 250, 250);">
+                        <div class="list-order border-bottom border-secondary pb-3">
+                            <h5 class="mb-3">Sản phẩm</h5>
+                            <div class="checkout-order-list" style="font-size: 14px">
+                                <div class="checkout-order-item d-flex justify-content-between pb-4"
+                                     th:each="orderItem, itemStat : ${orderItemList.orderItemDTOList}">
+                                    <div class="product-image w-25">
+                                        <img th:src="*{orderItem.imageName}" alt="" class="w-75 mt-1">
+                                    </div>
+                                    <div class="order-infor w-50">
+                                        <div class="product-infor mb-1">
+                                            <input hidden th:field="${orderItemList.orderItemDTOList[__${itemStat.index}__].quantityId}">
+                                            <input hidden th:field="${orderItemList.orderItemDTOList[__${itemStat.index}__].productId}">
+                                            <input hidden th:field="${orderItemList.orderItemDTOList[__${itemStat.index}__].productName}">
+                                            <input hidden th:field="${orderItemList.orderItemDTOList[__${itemStat.index}__].color}">
+                                            <input hidden th:field="${orderItemList.orderItemDTOList[__${itemStat.index}__].size}">
+                                            <input hidden th:field="${orderItemList.orderItemDTOList[__${itemStat.index}__].price}">
+<!--                                            <input hidden th:field="${orderItemList.orderItemDTOList[__${itemStat.index}__].quantity}">-->
+                                            <h6 class="mb-0 product-name" th:text="*{orderItem.productName}">Quần Short OK L.345BG</h6>
+                                            <span class="product-size text-capitalize" th:text="*{orderItem.color}">Be </span>
+                                            <span class="product-color text-uppercase" th:text="*{orderItem.size}">XL</span>
+                                        </div>
+                                        <div class="product-infor-control d-flex align-items-center mt-1">
+<!--                                            <i class="fa-solid fa-trash-can rm-item-btn" role="button"></i>-->
+                                            <div class="quantity-item-control">
+                                                <i class="fa-solid fa-minus dec-item-btn" role="button"
+                                                th:attr="quantity-id = *{orderItem.quantityId}"></i>
+                                                <div class="border text-center border-secondary d-inline-block" style="width: 50px !important;">
+                                                    <input class="form-control text-center p-0 border-0 quantity-item-input"
+                                                    th:field="${orderItemList.orderItemDTOList[__${itemStat.index}__].quantity}" readonly="readonly">
+                                                </div>
+                                                <i class="fa-solid fa-plus inc-item-btn" role="button"
+                                                th:attr="quantity-id = *{orderItem.quantityId}" th:attrappend="remainQty = *{orderItem.getRemainQty()}"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-total ms-2 d-flex align-items-center w-25">
+                                        <h6 class="mb-0 order-item-total" th:text="*{orderItem.price * orderItem.quantity}"
+                                        th:attrappend="total = *{orderItem.price * orderItem.quantity}"
+                                        th:attr="item-price = *{orderItem.price}"
+                                        >250.000
+                                        </h6>
+                                        <i class="fa-solid fa-dong-sign"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-total d-flex justify-content-between py-3 border-bottom border-secondary">
+                            <h4 class="text-secondary">Tổng cộng</h4>
+                            <div class="text-center">
+                                <h5 class="d-inline" id="order-paytotal-display">1.400.000</h5>
+                                <i class="fa-solid fa-dong-sign"></i>                             
+                            </div>
+                        </div>   
+                        <div class="border border-danger my-3 px-2 py-2">
+                            <span class="fw-light">Chúng tôi sẽ XÁC NHẬN đơn hàng bằng TIN NHẮN SMS hoặc GỌI ĐIỆN. Bạn vui lòng kiểm tra TIN NHẮN hoặc NGHE MÁY ngay khi đặt hàng thành công và CHỜ NHẬN HÀNG</span>
+                        </div>  
+                        <div class="d-flex justify-content-end py-3">
+                            <button type="submit" class="btn btn-primary input rounded-3 text-uppercase">Hoàn tất đơn hàng</button>    
+                        </div>           
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end body -->
+
+    <!-- start footer -->
+    <div th:replace="fragmentes :: footer"></div>
+
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script th:src="@{/assets/js/main.js}"></script>
+    <script th:src="@{/assets/js/checkout.js}"></script>
+
+</body>
+    
+</html>

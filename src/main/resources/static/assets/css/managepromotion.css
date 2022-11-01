@@ -1,0 +1,54 @@
+.content-body-header{
+    background-color: #fff;
+    display: flex;
+    justify-content: space-around;
+    flex: 3;
+}
+.header-item{
+    text-align: center;
+    flex: 3;
+}
+.header-item:hover{
+    cursor: pointer;
+}
+.content-body-main{
+    background-color: #fff;
+    min-height: 1000px;
+}
+.body-item-row{
+    width: 600px;
+}
+
+.table-product{
+    display: flex;
+    height: 500px;
+}
+.table-product-item{
+    flex: 1;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    flex: 1;
+}
+.input-group{
+}
+.input-group input, button{
+    font-size: 12px;
+}
+.table-product table{
+    font-size: 13px;
+    margin: auto;
+    margin-top: 0;
+    height: 100px;
+    width: 500px;
+    border: 1px solid #ccc;
+}
+.table-product td{
+    vertical-align:middle;
+    height: 60px;
+}
+.table-product-control{
+    /* flex: 2; */
+    margin: auto;
+}

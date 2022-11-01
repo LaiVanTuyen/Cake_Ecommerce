@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmentes :: html_head ('OderSuccess')">
+</head>
+<body>
+<!-- back to top -->
+    <div th:replace="fragmentes :: back_to_top"></div>
+    <!-- header -->
+    <div th:replace="fragmentes :: header"></div>
+    <!-- nav -->
+    <nav th:replace="fragmentes :: navbar"></nav>
+  	<div class="body py-5">
+        <!-- start collection -->
+        <div id="collection" >
+            <div class="container">
+                <h5 class="text-center py-4 text-uppercase">Đặt hàng thành công</h5>
+                 <a href="/">Quay về trang chủ</a>
+             </div>
+        </div>
+  	
+   
+    
+     <!-- start footer -->
+    <div th:replace="fragmentes :: footer"></div>
+    
+</body>
+</html>

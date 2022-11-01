@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmentes :: html_head ('Giỏ hàng')"></head>
+<head> 
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/cart.css">
+</head>
+<body>
+    <!-- back to top -->
+    <div th:replace="fragmentes :: back_to_top"></div>
+    <!-- header -->
+    <div th:replace="fragmentes :: header"></div>
+    <!-- end header -->
+
+    <!-- start nav -->
+    <nav th:replace="fragmentes :: navbar"></nav>
+    
+
+    <!-- start body -->
+    <div class="body py-5">
+        <div class="container">
+            <div class="main w-75 m-auto">
+                <div class="cart-not-empty" th:if="${listOrderItem.orderItemDTOList.size() > 0}">
+                    <h5 class="text-uppercase d-inline">Giỏ hàng</h5>
+                <span class="">
+                    (Có
+                    <span class="fw-bold" th:text="${listOrderItem.orderItemDTOList.size()}">5</span>
+                    sản phẩm trong giỏ hàng)
+                </span>
+                    <form th:action="@{/cart/checkout}" method="post" id="checkout-form">
+                        <div class="order-list my-4">
+                                <div class="order-item d-flex justify-content-between py-2 border-bottom"
+                                th:each="item, itemStat : ${listOrderItem.orderItemDTOList}"
+                                th:attr="cartId = *{item.cartId}"
+                                th:attrappend="quantityId = *{item.quantityId}">
+                                    <div class="d-flex w-50">
+                                        <div class="product-selected d-flex align-items-center me-3">
+                                            <input type="checkbox" name="" class="form-check-input">
+                                        </div>
+                                        <div class="product-image py-1">
+                                            <img th:src="*{item.imageName}" alt="" class="w-100">
+                                        </div>
+                                        <div class="product-name ms-3">
+                                            <h6 th:text="*{item.productName}">Áo sơ mi nhung tăm Hàn Quốc ASM2054</h6>
+                                            <span class="text-capitalize" th:text="*{item.color}">Ghi</span>
+                                            <span>-</span>
+                                            <span class="text-uppercase" th:text="*{item.size}">XL</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-action d-flex align-items-center item-qty">
+                                        <i class="fa-solid fa-minus pe-2 dec-qty-btn" role="button"></i>
+                                        <div class="border text-center border-secondary d-inline-block" style="width: 60px !important;">
+                                            <input type="text" readonly class="form-control input text-center item-qty-input"
+                                                   th:field="${listOrderItem.orderItemDTOList[__${itemStat.index}__].quantity}">
+                                            <input hidden class="quantity-id-input" th:field="${listOrderItem.orderItemDTOList[__${itemStat.index}__].quantityId}">
+                                        </div>
+                                        <i class="fa-solid fa-plus ps-2 inc-qty-btn" th:attr="quantity=*{item.getRemainQty()}" role="button"></i>
+                                    </div>
+                                    <div class="product-total d-flex align-items-center" style="width: 150px">
+                                        <h6 class="d-inline item-total" th:text="*{item.totalCurrency}" th:attr="price = *{item.price}">1,500,500</h6>
+                                        <i class="fa-solid fa-dong-sign"></i>
+                                    </div>
+                                    <div class="product-remove d-flex align-items-center">
+                                        <i class="fa-solid fa-trash-can rm-item-btn" role="button"></i>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="checkout d-flex flex-column align-items-end" style="background-color: rgb(252, 252, 252);">
+                            <div class="py-3">
+                                <h5 class="d-inline fw-normal text-secondary">Tổng thanh toán: </h5>
+                                <h5 class="d-inline" id="payTotal" th:text="${payTotal}"></h5><i class="fa-solid fa-dong-sign"></i>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-25" id="checkout-btn">THANH TOÁN</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="cart-empty" th:if="${listOrderItem.orderItemDTOList.size() == 0}">
+                    <h5 class="text-uppercase d-inline">Giỏ hàng</h5>
+                    <p class="text-center text-danger">(Giỏ hàng của bạn trống)</p>
+                    <div class="justify-content-center d-flex">
+                        <a href="/">
+                            <p class="btn btn-primary">Tiến hành mua sắm</p>
+                        </a>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <!-- end body -->
+
+
+    <!-- start footer -->
+    <div th:replace="fragmentes :: footer"></div>
+
+    <!-- bootstrap js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script th:src="@{/assets/js/main.js}"></script>
+    <script th:src="@{/assets/js/cart.js}"></script>
+
+</body>
+    
+</html>

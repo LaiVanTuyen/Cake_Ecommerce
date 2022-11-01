@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmentes :: html_head ('CodeFresher Shop')">
+</head>
+
+<body>
+    <!-- back to top -->
+    <div th:replace="fragmentes :: back_to_top"></div>
+    <!-- header -->
+    <div th:replace="fragmentes :: header"></div>
+    <!-- nav -->
+    <nav th:replace="fragmentes :: navbar"></nav>
+
+
+    <!-- start slider -->
+    <div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#myCarousel" data-bs-slide-to="1" class="active"></li>
+        <li data-bs-target="#myCarousel" data-bs-slide-to="2" class="active"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div th:each="promotion: ${promotionList}"
+             th:classappend="${promotionList.indexOf(promotion) == 0 ? 'active' : ''}"
+             class="carousel-item"
+        >
+            <div class="slider-img" th:style=" 'background-image: url(' + *{promotion.getImgName()} + ');' " >
+            </div>
+            <div class="container">
+                <h1 class="text-capitalize" th:text="*{promotion.getTitle()}"></h1>
+                <p th:text="*{promotion.getDescription()}"></p>
+                <a th:href="@{'/promotion/'+${promotion.getPromotionId()}}" class="btn btn-outline-light">Xem chi tiết</a>
+            </div>
+        </div>
+
+    </div>
+
+    <a class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </a>
+    <a class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </a>
+
+</div>
+    <!-- end slider -->
+
+
+    <!-- start body -->
+    <div class="body py-5">
+        <!-- start collection -->
+        <div id="collection" >
+            <div class="container">
+                <div class="newProduct my-4 text-center pb-5">
+                    <h2 class="d-inline-block">Sản phẩm mới</h2>
+                    <div class="collection-list mt-4 row">
+                        <div class="collection-item col-md-6 col-lg-4 col-xl-3 my-4"
+                             th:each="product: ${newestProductList}">
+                            <div class="collection-img position-relative ">
+                                <a th:href="@{|/product/*{product.productId}|}" class="">
+                                    <img th:src="*{product.getImageName()}"
+                                         alt="" class="w-100"
+                                    >
+                                </a>
+                                <span class="position-absolute bg-dark text-white
+                                    d-flex justify-content-center align-items-center">New</span>
+                            </div>
+                            <div class="collection-info text-center">
+                                <p class="my-1 text-capitalize" th:text="*{product.getName()}"></p>
+                                <span class="fw-bold" th:text="*{product.getPriceCurr()}"></span>
+                                <i class="fa-solid fa-dong-sign"></i>
+                            </div>
+                            <div class="collection-btn d-flex w-100 mt-2">
+                                <a class="btn btn-dark w-50">
+                                    <i class="fa-solid fa-cart-shopping fs-icon"></i>
+                                    Mua ngay
+                                </a>
+                                <a th:href="@{|/product/*{product.productId}|}" class="btn btn-dark w-50">
+                                    <i class="fa-solid fa-eye fs-icon"></i>
+                                    Xem chi tiết
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="collection-link">
+                        <a href="" class="btn btn-outline-dark float-end">Xem thêm</a>
+                    </p>
+                </div>
+
+                <div class="hotProduct my-4 text-center pb-5">
+                    <h2 class="d-inline-block">Sản phẩm đang giảm giá</h2>
+                    <div class="collection-list mt-4 row">
+                        <div class="collection-item col-md-6 col-lg-4 col-xl-3 my-4"
+                            th:each="product: ${saleProductList}">
+                            <div class="collection-img position-relative ">
+                                <a th:href="@{|/product/*{product.productId}|}" class="">
+                                    <img th:src="*{product.getImageName()}"  alt="" class="w-100">
+                                </a>
+                                <span class="position-absolute bg-dark text-white
+                                    d-flex justify-content-center align-items-center">Sale</span>
+                            </div>
+                            <div class="collection-info text-center">
+                                <p class="my-1 text-capitalize" th:text="*{product.getName()}"></p>
+                                <del><span class="fw-bold" th:text="*{product.getPriceCurr()}"></span></del>
+                                <i class="fa-solid fa-dong-sign me-3"></i>
+                                <span class="fw-bold"
+                                      th:text="*{product.getDisPriceCurr()}">
+                                </span>
+                                <i class="fa-solid fa-dong-sign"></i>
+                            </div>
+                            <div class="collection-btn d-flex w-100 mt-2">
+                                <a href="" class="btn btn-dark w-50">
+                                    <i class="fa-solid fa-cart-shopping fs-icon"></i>
+                                    Mua ngay
+                                </a>
+                                <a th:href="@{|/product/*{product.productId}|}" class="btn btn-dark w-50">
+                                    <i class="fa-solid fa-eye fs-icon"></i>
+                                    Xem chi tiết
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-link">
+                        <a href="" class="btn btn-outline-dark float-end">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end collection -->
+
+        <!-- start news -->
+        <div class="news my-4 text-center pb-5 ">
+            <div class="container ">
+                <h2 class="d-inline-block ">Tin tức</h2>
+                <div class="news-list row text-start mt-4 ">
+                    <div class="new-item col-lg-3 col-md-6 my-4 ">
+                        <a href="" class="new-link">
+                            <img src="https://file.hstatic.net/1000371035/article/cach-lam-banh-cupcake-socola-9_90dc05e17d034426bc1aad4495fe50c1_large.jpg" alt="" class="new-img w-100 mb-3">
+                        </a>
+                        <span class="new-title fw-bold">CUPCAKE CHOCOLATE</span>
+                        <p class="new-detail">Cách làm bánh  cupcake socola đơ giản sẽ làm ra một chiếc bánh vô cùng ngọt ngào với hương vị chocolate đậm đà, có một chút vị đắng nhưng hương vị lại vô cùng quyến rũ...</p>
+                    </div>
+
+                    <div class="new-item col-lg-3 col-md-6 my-4 ">
+                        <a href="" class="new-link">
+                            <img src="https://file.hstatic.net/1000371035/article/img_3034_1af57ce6c7e04f1b88689433da285f19_large.jpg" alt="" class="new-img w-100 mb-3">
+                        </a>
+                        <span class="new-title fw-bold">Bánh GATO vị dừa & lá dứa</span>
+                        <p class="new-detail">Nguyên liệu (cho khuôn lõi giữa 18cm)A. Bạt bánh 33 gram cơm dừa sấy khô (không nên thay bằng dừa tươi)75 gram nước cốt dừa1 teaspoon (5ml) tinh chất lá dứa/ lá nếp/ pandan......</p>
+                    </div>
+
+                    <div class="new-item col-lg-3 col-md-6 my-4 ">
+                        <a href="" class="new-link">
+                            <img src="https://file.hstatic.net/1000371035/article/banh-sung-bo-phap_7c2b72a0590f408ca667b299898ff548_large.jpg" alt="" class="new-img w-100 mb-3">
+                        </a>
+                        <span class="new-title fw-bold">Bánh sừng bò</span>
+                        <p class="new-detail">Bánh sừng bò còn được gọi là Croissant - một loại bánh phổ biến ở châu Âu, có nguồn gốc từ Pháp, được du nhập vào các nước châu Á từ rất sớm. Bánh có thể linh hoạt thay đổi......</p>
+                    </div>
+
+                    <div class="new-item col-lg-3 col-md-6 my-4 ">
+                        <a href="" class="new-link">
+                            <img src="https://file.hstatic.net/1000371035/article/summerpuddingmousse_b2089f17a1fa4f9db831b86905ccd9fd_large.jpg" alt="" class="new-img w-100 mb-3">
+                        </a>
+                        <span class="new-title fw-bold">PUDDING MOUSSE CAKE</span>
+                        <p class="new-detail">Cảm giác “Hè” có thể thấy từ màu sắc sáng bừng của món ăn, từ những nguyên liệu quen thuộc trong ngày nóng như sữa chua, chanh leo, từ cách làm cố gắng giản tiện hết mức bằng vi... ...</p>
+                    </div>
+                </div>
+                <div class="collection-link">
+                    <a href="" class="btn btn-outline-dark float-end">Xem thêm</a>
+                </div>
+            </div>
+        </div>
+        <!-- end news -->
+    </div>
+    <!-- end body -->
+
+
+    <!-- start footer -->
+    <div th:replace="fragmentes :: footer"></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script th:src="@{/assets/js/main.js}"></script>
+</body>
+
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmentes :: html_head ('Quản lý')"></head>
+<head>
+    <link rel="stylesheet" th:href="@{/assets/css/manage.css}">
+</head>
+<body>
+    <div th:replace="fragmentes :: header"></div>
+    <!-- start nav -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-white">
+        <div class="container">
+            <a th:href="@{/}" class="navbar-brand">
+                <img 
+                    class="d-inline-block"
+                    th:src="@{/assets/img/logo.png}"
+                    alt="" width="180" height="60"
+                 />
+            </a>          
+            <div class="container text-center">
+                <h5 class="w-100 my-2">QUẢN LÝ CodeFresher</h5>
+            </div>
+        </div>
+    </nav>
+    <!-- end nav -->
+
+
+    <!-- start body -->
+    <div class="body py-2">
+        <div class="d-flex justify-content-between">
+            <div class="control">
+                <div class="control-header ps-3 py-3 mb-2 ">
+                    Xin chào,
+                    <h6 class="d-inline"  th:value="${#request.remoteUser}"> [[${#request.remoteUser}]]</h6>
+                    !
+                </div>
+                <div class="control-body  py-2 pb-1">
+                    <div class="control-list">
+                        <a th:href="@{/manage}"  class="text-decoration-none ">
+                            <div class="control-item py-3 ps-3 object--border-left ">
+                                <i class="fa-solid fa-chart-line"></i>
+                                <span>Tổng quan</span>
+                            </div>
+                        </a>
+                        <a th:href="@{/manage/promotion}" class="text-decoration-none">
+                            <div class="control-item py-3 ps-3">
+                                <i class="fa-solid fa-tag"></i>
+                                <span>Quản lý CTKM</span>
+                            </div>
+                        </a>
+                        <a th:href="@{/manage/product}" class="text-decoration-none">
+                            <div class="control-item py-3 ps-3">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span>Quản lý sản phẩm</span>
+                            </div>
+                        </a>
+                        <a th:href="@{/manage/order}" class="text-decoration-none">
+                            <div class="control-item py-3 ps-3">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span>Quản lý đơn hàng</span>
+                            </div>
+                        </a>
+                        <div class="control-item py-3 ps-3">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span>Thống kê</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-footer ps-3 py-3 mb-2">
+
+                </div>
+            </div>
+            <div class="content">
+                <div class="content-header ps-3 py-3 mb-2">
+                    <h5>TỔNG QUAN</h5>
+                </div>
+                <div class="content-body py-3 mb-2">
+                    <div class="conten-body-row content-body-row-total d-flex justify-content-between">
+                        <div class="total-item pb-3 me-3">
+                            <h5 class="ps-3 pt-3">Khách hàng mới</h5>
+                            <h4 class="fw-normal ps-3 pt-3 text-primary">456</h4>
+                            
+                        </div>
+                        <div class="total-item pb-3 me-3">
+                            <h5 class="ps-3 pt-3">Doanh thu trong tháng</h5>
+                            <h4 class="fw-normal ps-3 pt-3 text-success d-inline-block">100.000.000.000</h4>                          
+                            VNĐ<br>
+                            
+                        </div>
+                        <div class="total-item pb-3">
+                            <h5 class="ps-3 pt-3">Đơn hàng chờ duyệt</h5>
+                            <h4 class="fw-normal ps-3 pt-3 text-danger">456</h4>
+                            
+                        </div>
+                    </div>
+                    <div class="conten-body-row content-body-row-">
+                        
+                    </div>
+                    <div class="conten-body-row content-body-row-">
+                        
+                    </div>
+                </div>
+                <!-- <div class="content-footer ps-3 py-2 mb-1">
+                    ok
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!-- end body -->
+
+
+    </div>
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script th:src="@{/assets/js/main.js}"></script>
+    <script th:src="@{/assets/js/manage.js}"></script>
+</body>
+    
+</html>

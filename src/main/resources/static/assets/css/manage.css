@@ -1,0 +1,73 @@
+/* common
+ */
+.object--border-left{
+    font-weight: 500;
+    box-shadow: -1px 0 0 0 black;
+    /* border-left: 3px solid #333; */
+}
+.object--border-bottom{
+    font-weight: 500;
+    box-shadow: 0 1px 0 0 black;
+}
+
+ /*  */
+.body{
+    background-color: rgb(235, 235, 235);
+    min-width: 1500px;
+}
+.control{
+    width: 20%;
+    min-height: 1000px;
+    background-color: #fff;
+}
+.control-item{
+    color: #333;
+}
+.control-item:hover{
+    background-color: #ccc;
+    cursor: pointer;
+}
+.control-item i {
+    min-width: 18px; 
+}
+.content{
+    width: 79%;
+    min-height: 1000px;
+}
+.content-header {
+    background-color: #fff;
+}
+.content-body {
+    background-color:  rgb(235, 235, 235);
+}
+.total-item{
+    flex: 3;
+    color: #333;
+    background-color: #fff;
+}
+.content-footer {
+    background-color: #fff;
+}
+.content-body-header{
+    background-color: #fff;
+    display: flex;
+    justify-content: space-around;
+    flex: 3;
+}
+.header-item{
+    text-align: center;
+    flex: 3;
+}
+.header-item:hover{
+    cursor: pointer;
+}
+.content-body-main{
+    background-color: #fff;
+    min-height: 1000px;
+}
+#order-item-list span{
+    width: 20%;
+}
+#order-item-list .order-item-name{
+    width: 40%;
+}

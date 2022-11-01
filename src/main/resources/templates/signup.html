@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmentes :: html_head ('Đăng ký')">
+</head>
+
+<body>
+    <!-- back to top -->
+    <div th:replace="fragmentes :: back_to_top"></div>
+    <!--    header-->
+    <div th:replace="fragmentes :: header"></div>
+    <!-- nav -->
+    <nav th:replace="fragmentes :: navbar"></nav>
+
+    <!-- start body -->
+    <div class="body py-5">
+        <div class="container">
+                <!-- sign up form -->
+
+                <form th:action="@{/signup}" method="post" class="auth-form col-sm-12 col-lg-6 needs-validation" novalidate>
+                    <div class="auth-form-header">
+                        <a href="/login" class="auth-form-header-link">
+                            <h4  class="fw-light mb-0">ĐĂNG NHẬP</h4>
+                        </a>
+                        <a href="/signup" class="auth-form-header-link">
+                            <h4 class="fw-normal mb-0">ĐĂNG KÝ</h4>
+                        </a>
+                    </div>
+                    <div class="auth-form-body">
+                        <div class="auth-form-group">
+                            <input type="text" class="form-control auth-form-input input" name=""  placeholder="Tên tài khoản"
+                                   required minlength="6" maxlength="10" th:field="${user.username}">
+
+                            <input type="password" class="form-control auth-form-input input" name=""  placeholder="Mật khẩu"
+                                   required minlength="6" maxlength="10" th:field="${user.password}">
+
+                            <input type="text" class="form-control auth-form-input input" name="" placeholder="Họ tên"
+                                   minlength="2" maxlength="20" required th:field="${user.fullname}">
+
+                            <input type="tel" class="form-control auth-form-input input" name=""  placeholder="Số điện thoại"
+                                   minlength="10" required th:field="${user.phoneNumber}">
+
+                            <input type="email" class="form-control auth-form-input input" name="email"  placeholder="Email"
+                                   minlength="10" required th:field="${user.email}">
+
+                            <select class="form-select address-select auth-form-input input"
+                                    id="province-select" onchange="addDistricts(value)" required th:field="${address.province}">
+                                <option value="" selected >Chọn Tỉnh/Thành phố</option>
+                            </select>
+
+
+                            <select class="form-select address-select auth-form-input input"
+                                    id="district-select" onchange="addWards(value)" required th:field="${address.district}">
+                                <option value="" selected>Chọn Quận/Huyện</option>
+                            </select>
+
+                            <select class="form-select address-select auth-form-input input" id="ward-select" required th:field="${address.ward}">
+                                <option selected value="">Chọn Phường/Xã</option>
+                            </select>
+
+                            <input type="text" class="form-control auth-form-input input" name="" id="" placeholder="Địa chỉ chi tiết"
+                                   minlength="6" maxlength="50" required th:field="${address.detail}">
+                            <div class="invalid-feedback">
+                                Hãy điền đầy đủ thông tin vào các trường
+                            </div>
+                            <div class="text-danger" th:if="${#fields.hasErrors('user.username')}" th:errors="${user.username}"></div>
+
+                        <div class="auth-form-link">
+                            <span class="link-forgetpass pe-2 border-end">Quên mật khẩu</span>
+                            <span class="link-morehelp ps-2">Cần trợ giúp</span>
+                        </div>
+                    </div>
+                    <div class="auth-form-footer">
+                        <button type="submit" class="btn btn-dark btn-auth-form">Đăng ký</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <!-- end body -->
+
+
+
+
+    <!-- start footer -->
+    <div th:replace="fragmentes :: footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="./assets/js/main.js"></script>
+    <script th:src="@{/assets/js/addressAPI.js}"></script>
+</body>
+    
+</html>

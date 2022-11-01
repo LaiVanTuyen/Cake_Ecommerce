@@ -1,0 +1,15 @@
+.main{
+    min-height: 700px;
+}
+.product-image{
+    width: 20%;
+}
+.product-name{
+    width: 80%;
+}
+.form-footer{
+    width: 972px;
+    height: 100px;
+    margin: auto;
+    background-color: rgb(247, 247, 247);
+}

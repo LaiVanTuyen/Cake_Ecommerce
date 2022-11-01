@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmentes :: html_head ('Quản lý CTKM')"></head>
+<head>
+    <link rel="stylesheet" th:href="@{/assets/css/manage.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/managepromotion.css}">
+    <!-- js -->
+</head>
+<body>
+<!-- header -->
+<div th:replace="fragmentes :: header"></div>
+
+<!-- start nav -->
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-white">
+    <div class="container">
+        <a th:href="@{/}" class="navbar-brand">
+            <img
+                    class="d-inline-block"
+                    th:src="@{/assets/img/logo.png}"
+                    alt="" width="180" height="60"
+            />
+
+
+        </a>
+        <div class="container text-center">
+            <h5 class="w-100 my-2">Quản lý CodeFresher</h5>
+        </div>
+    </div>
+</nav>
+<!-- end nav -->
+
+
+<!-- start body -->
+<div class="body py-2">
+    <div class=" d-flex justify-content-between w-100">
+        <div class="control">
+            <div class="control-header ps-3 py-3 mb-2 ">
+                Xin chào,
+                <h6 class="d-inline"  th:value="${#request.remoteUser}"> [[${#request.remoteUser}]]</h6>
+                !
+            </div>
+            <div class="control-body  py-2 pb-1">
+                <div class="control-list">
+                    <a th:href="@{/manage}" class="text-decoration-none">
+                        <div class="control-item py-3 ps-3">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span>Tổng quan</span>
+                        </div>
+                    </a>
+                    <a th:href="@{/manage/promotion}" class="text-decoration-none">
+                        <div class="control-item py-3 ps-3 object--border-left">
+                            <i class="fa-solid fa-tag"></i>
+                            <span>Quản lý CTKM</span>
+                        </div>
+                    </a>
+                    <a th:href="@{/manage/product}" class="text-decoration-none">
+                        <div class="control-item py-3 ps-3">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span>Quản lý sản phẩm</span>
+                        </div>
+                    </a>
+                    <a th:href="@{/manage/order}" class="text-decoration-none">
+                        <div class="control-item py-3 ps-3">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span>Quản lý đơn hàng</span>
+                        </div>
+                    </a>
+                    <div class="control-item py-3 ps-3">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Thống kê</span>
+                    </div>
+                </div>
+            </div>
+            <div class="control-footer ps-3 py-3 mb-2">
+
+            </div>
+        </div>
+        <div class="content">
+            <div class="content-header ps-3 py-3 mb-2">
+                <h5 class="text-uppercase">quản lý chương trình khuyến mãi</h5>
+            </div>
+            <div class="content-body pt-3">
+                <div class="content-body-header">
+                    <span class="header-item mb-0 py-2 object--border-bottom">Thêm chương trình khuyến mãi</span>
+                    <span class="header-item mb-0 py-2">Sửa chương trình khuyến mãi</span>
+                    <span class="header-item mb-0 py-2">Quản lý sản phẩm chương trình khuyến mãi</span>
+                </div>
+                <div class="content-body-main d-flex justify-content-center">
+                    <div class="body-item ps-3 py-5">
+                        <form action="" method="post" id="add-promotion-frm" enctype="multipart/form-data" name="add-promotion-form">
+                            <div class="body-item-row py-3">
+                                <span class="fw-bold">Tiêu đề chương trình khuyến mãi</span>
+                                <input class="form-control my-2 input" type="text" name="title" id="add-title-promotion" oninput="checkValidAddPromotion()">
+                            </div>
+                            <div class="body-item-row py-3">
+                                <span class="fw-bold">Mô tả chương trình khuyến mãi</span>
+                                <br>
+                                <textarea name="description" id="add-desc-promotion" cols="100" rows="5" class="input form-control my-2" oninput="checkValidAddPromotion()"></textarea>
+                            </div>
+                            <div class="body-item-row py-3">
+                                <span class="fw-bold">Giảm giá(%)</span>
+                                <br>
+                                <input class="form-control my-2 input" type="number" name="discount" id="add-discount-promotion" oninput="checkValidAddPromotion()">
+                            </div>
+                            <div class="body-item-row py-3">
+                                <span class="fw-bold">Tải ảnh lên</span>
+                                <span class="fs-6 text-secondary"> (kích thước tối đa 2MB)</span>
+                                <div class="custom-file">
+                                    <input type="file" class="form-control my-2 input" id="add-file-promotion" name="image"
+                                          placeholder="Kích thước tối đa 2MB" oninput="checkValidAddPromotion()">
+                                </div>
+                            </div>
+                            <span class="add-promotion-feedback text-danger object--disapper">Hãy nhập đầy đủ thông tin</span>
+                            <span class="add-promotion-success text-success object--disapper"> Thêm thành công</span>
+                            <div class="body-item-row py-3 d-flex justify-content-between">
+                                <button type="button" class="w-25 btn btn-outline-danger" id="cancel-promotion-btn">Hủy</button>
+                                <button type="button" class="w-25 btn btn-outline-primary" id="add-promotion-btn">Thêm</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Edit promotion-->
+                    <div class="body-item ps-3 py-5 object--disapper" id="edit-promotion-frm">
+                        <form enctype="multipart/form-data" name="edit-promotion-form">
+                            <div class="body-item-row py-3">
+                                <select name="" id="edit-select-promotion" class="form-control input">
+                                    <option value="" disabled selected>Chọn chương trình khuyến mãi muốn sửa</option>
+                                    <option th:each="promotion : ${promotionList}"
+                                    th:attr="promotion-id = *{promotion.promotionId}"
+                                    th:text="*{promotion.title}">
+                                        Siêu sale chào hè
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="body-item-row py-3">
+                                <span class="fw-bold">Sửa tiêu đề chương trình khuyến mãi</span>
+                                <input class="form-control my-2 input" type="text" name="title" id="edit-title-promotion">
+                            </div>
+                            <div class="body-item-row py-3">
+                                <span class="fw-bold">Sửa mô tả chương trình khuyến mãi</span>
+                                <br>
+                                <textarea name="description" id="edit-desc-promotion" cols="100" rows="5" class="input form-control my-2" ></textarea>
+                            </div>
+                            <div class="body-item-row py-3">
+                                <span class="fw-bold">Sửa giảm giá(%)</span>
+                                <br>
+                                <input class="form-control my-2 input" type="number" name="discount" id="edit-discount-promotion" >
+                            </div>
+                            <div class="body-item-row py-3">
+                                <span class="fw-bold">Thay đổi hình ảnh</span>
+                                <div class="custom-file">
+                                    <input type="file" class="form-control my-2 input" id="edit-file-promotion" name="image">
+                                </div>
+                            </div>
+                            <span class="edit-promotion-feedback text-danger object--disapper">Không được để trống thông tin</span>
+                            <span class="edit-promotion-success text-success object--disapper">Sửa thông tin thành công</span>
+                            <div class="body-item-row py-3 d-flex justify-content-between">
+                                <button type="button" class="w-25 btn btn-outline-primary" id="edit-promotion-btn">Thêm</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- product promotion-->
+                    <div class="body-item object--disapper w-100 py-5 px-3" id="product-promotion">
+                        <div class="py-3">
+                            <select name="" id="product-select-promotion" class="form-control input w-25">
+                                <option value="" disabled selected>Chọn chương trình khuyến mãi</option>
+                                <option value="" th:each="promotion: ${promotionList}"
+                                th:text="*{promotion.title}"
+                                th:attr="promotion-id = *{promotion.promotionId}"
+                                >
+                                    Siêu sale chào hè</option>
+                            </select>
+                        </div>
+                        <div class="table-product my-3">
+                            <div class="table-product-item me-2" id="product-discount">
+                                <div class="table-product-head d-flex flex-column align-items-center">
+                                    <h6 class="w-50 pb-2">Sản phẩm nằm trong CTKM</h6>
+                                    <div class="input-group w-50">
+                                        <input type="search" class="form-control input" id="search-pip-input" placeholder="Tìm kiếm"/>
+                                        <button type="button" class="btn btn-outline-dark" id="search-pip-button">Tìm</button>
+                                    </div>
+                                    <span class="text-success object--disapper mt-3" id="remove-productpromotion-success">Xóa sửa thành công</span>
+                                </div>
+                                <div class="table-product table-responsive mt-4">
+                                    <table class="table-hover table" id="product-in-promotion">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 10px;" scope="col">STT</th>
+                                            <th style="width: 150px;" scope="col">Tên sản phẩm</th>
+                                            <th style="width: 70px;" scope="col">Giá gốc</th>
+                                            <th style="width: 70px;" scope="col">Giá giảm</th>
+                                            <th style="width: 100px;" scope="col">Hành động</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="table-product-control d-flex align-items-center flex-column">
+                                <div class="my-3 text-center  fw-bold text-danger" role="button" id="product-remove-promotion-btn">
+                                    <span class="">Xóa</span>
+                                    <i class="fw-bold fa-solid fa-chevron-right"></i>
+                                </div>
+                                <div class="my-3 text-center  fw-bold text-primary" role="button" id="product-add-promotion-btn">
+                                    <i class="fw-bold fa-solid fa-chevron-left"></i>
+                                    <span>Thêm</span>
+
+                                </div>
+                            </div>
+                            <div class="table-product-item ms-2" id="product-not-discount">
+                                <div class="table-product-head d-flex flex-column align-items-center">
+                                    <h6 class="w-50 pb-2">Sản phẩm không nằm trong CTKM</h6>
+                                    <div class="input-group w-50">
+                                        <input type="search" class="form-control input" id="search-pnip-input" placeholder="Tìm kiếm"/>
+                                        <button type="button" class="btn btn-outline-dark" id="search-pnip-button">Tìm</button>
+                                    </div>
+                                    <span class="text-success object--disapper mt-3" id="add-productpromotion-success">Thêm thành công</span>
+                                </div>
+                                <div class="table-product table-responsive mt-4">
+                                    <table class="table-hover table" id="product-not-in-promotion">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 10px;" scope="col">STT</th>
+                                            <th style="width: 150px;" scope="col">Tên sản phẩm</th>
+                                            <th style="width: 140px;" scope="col">Giá gốc</th>
+                                            <th style="width: 100px;" scope="col">Hành động</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="content-footer ps-3 py-2 mb-1">
+                ok
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- end body -->
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script th:src="@{/assets/js/main.js}"></script>
+<script th:src="@{/assets/js/managepromotion.js}"></script>
+</body>
+
+</html>

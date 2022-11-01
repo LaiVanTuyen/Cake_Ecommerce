@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmentes :: html_head ('Lịch sử mua hàng')"></head>
+<body>
+    <!-- back to top -->
+    <div th:replace="fragmentes :: back_to_top"></div>
+    <!-- header -->
+    <div th:replace="fragmentes :: header"></div>
+    <!-- end header -->
+
+    <!-- start nav -->
+    <nav th:replace="fragmentes :: navbar"></nav>
+    <!-- end nav -->
+    
+
+    <!-- start body -->
+    <div class="body py-5">
+        <div class="container">
+            <div class="main ">              
+                <div class="profile-main profile-order mb-4 pb-2">
+                    <div class="history-order d-flex justify-content-center">
+                        <h4 class="fw-normal" >
+                            Lịch sử mua hàng
+                        </h4> 
+                    </div>
+                    <div class="order-id mt-3 mb-4">
+                        <h5 class="fw-normal d-inline">Mã đơn hàng:</h5>
+                        <h5 class="d-inline" th:text="${orderId}">453965</h5>
+                    </div>                   
+                    <div class="orders-list">                                   
+                        <div class="order-item row">
+                            <div class="order-item-infor d-flex justify-content-start py-2 col-xl-6 col-md-12" th:each="item : ${items}">
+                                <div class="order-item-img mt-1">
+                                    <img th:src="*{item.imageName}" style="width: 100px;">
+                                </div>
+                                <div class="order-item-lable ms-3">
+                                    <div class="order-item-name">
+                                        <p class="mb-0" th:text="*{item.productName}">
+                                            Quần short IB.54454 uần short IB.5445 uần short IB.5445
+                                        </p>
+                                    </div>  
+                                    <div class="order-item-detail">
+                                        <span class="fw-light">Phân loại:</span>
+                                        <span class="text-uppercase" th:text="*{item.size}">XL</span>,
+                                        <span class="text-capitalize" th:text="*{item.color}">Đỏ</span>
+                                        <br>
+                                        <span class="fw-light ">Số lượng:</span>
+                                        <span class="" th:text="*{item.quantity}">9</span>
+                                        <br>
+                                        <span class="fw-light ">Thành tiền:</span>
+                                        <span class="" th:text="*{item.totalCurrency}">120.500</span>
+                                        <span><i class="fa-solid fa-dong-sign"></i></span>     
+                                    </div>                              
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-total">
+                            <h6 class="fw-normal d-inline">Tổng thanh toán:</h6>
+                            <h6 class="d-inline" th:text="${total}">1.000.000</h6>
+                            <span><i class="fa-solid fa-dong-sign"></i></span>   
+                        </div>
+                    </div>                             
+                </div>
+            </div>
+        </div>
+    <!-- end body -->
+
+
+    
+
+
+
+
+    </div>
+    <!-- start footer -->
+    <div th:replace="fragmentes :: footer"></div>
+    <!-- end footer -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script th:src="@{/assets/js/main.js}"></script>
+</body>
+    
+</html>

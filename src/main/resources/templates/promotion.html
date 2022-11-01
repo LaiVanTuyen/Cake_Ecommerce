@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmentes :: html_head (${promotion.title})"></head>
+
+<body>
+<!-- back to top -->
+<div th:replace="fragmentes :: back_to_top"></div>
+<!-- header -->
+<div th:replace="fragmentes :: header"></div>
+<nav th:replace="fragmentes :: navbar"></nav>
+<!-- end nav -->
+    
+    <div id="promotion-img">
+        <div class="slider-img opacity-100" th:style=" 'background-image: url('+ *{promotion.getImgName()} +';' " ></div>
+        </div>
+        <div class="text-center pt-4">
+            <h2 class="text-uppercase" th:text="${promotion.title}">Siêu sale tháng 5</h2>
+            <h6 class="text-danger" th:text="${promotion.description}">Giảm 10% toàn bộ gian hàng</h6>
+        </div>
+    </div>
+    <!-- end slider -->
+
+
+    <!-- start body -->
+    <div class="body py-5">
+        <!-- start collection -->
+        <div id="collection" >
+            <div class="container">
+
+                <!-- search control -->
+                <div class="row m-0 justify-content-between pt-5">
+                    <div class="px-0 col-lg-4 col-md-12 d-flex align-items-center justify-content-start" id="search-filter">
+                        <h6 class="pe-3 mb-0 py-2 text-start" style="min-width: 122px;">LỌC THEO</h6>
+                        <select name="" id="" class="input form-select form-select-sm text-center" aria-label="form-select-sm"
+                        style="width: 200px;">
+                            <option selected class="" disabled>Lọc sản phẩm theo</option>
+                            <option value="1" class="">Đang giảm giá</option>
+                            <option value="1" class="">Dưới 100,000</option>
+                            <option value="2" class="">Từ 100,000 đến 300,000</option>
+                            <option value="3" class="">Trên 300,000</option>
+                        </select>
+                    </div>
+
+                    <div class="px-0 col-lg-4 col-md-12 d-flex align-items-center" id="search-sort" style="width: fit-content;">
+                        <h6 class="pe-3 mb-0 py-2" style="min-width: 122px;">SẮP XẾP THEO</h6>
+                        <select name="" id="" class="input form-select form-select-sm text-center" aria-label="form-select-sm"
+                        style="width: 200px;">
+                            <option selected>Mức độ liên quan</option>
+                            <option value="1">Mới nhất</option>
+                            <option value="2">Giá tăng dần</option>
+                            <option value="3">Giá giảm dần</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="collection-list mt-4 row">
+                    <div class="collection-item col-md-6 col-lg-4 col-xl-3 my-4" th:each="product : ${productDTOs}">
+                        <div class="collection-img position-relative ">
+                            <a th:href="@{'/product/' + *{product.productId}}" class="">
+                                <img th:src="*{product.imageName}"
+                                     alt="" class="w-100">
+                            </a>
+                            <span class="position-absolute bg-dark text-white
+                                d-flex justify-content-center align-items-center" th:if="*{product.promote == false}">New</span>
+                            <span class="position-absolute bg-dark text-white
+                                d-flex justify-content-center align-items-center" th:if="*{product.promote}">Sale</span>
+                        </div>
+                        <div class="collection-info text-center">
+                            <p class="my-1 text-capitalize" th:text="*{product.name}">quần short</p>
+                            <div class="" th:if="*{product.promote}">
+                                    <span class="fw-bold text-secondary text-decoration-line-through" th:text="*{product.priceCurr}">
+                                        150.000
+                                    </span><i class="fa-solid fa-dong-sign pe-1 text-secondary"></i>
+                                <span class="fw-bold ps-1" th:text="*{product.disPriceCurr}">
+                                        150.000
+                                    </span><i class="fa-solid fa-dong-sign"></i>
+                            </div>
+                            <div th:if="*{product.promote == false}">
+                                <span class="fw-bold" th:text="*{product.priceCurr}">150.000</span><i class="fa-solid fa-dong-sign"></i>
+                            </div>
+                        </div>
+                        <div class="collection-btn d-flex w-100 mt-2">
+                            <a th:href="@{'/product/' + *{product.productId}}" class="btn btn-dark w-50">
+                                <i class="fa-solid fa-cart-shopping fs-icon"></i>
+                                Mua ngay
+                            </a>
+                            <a th:href="@{'/product/' + *{product.productId}}" class="btn btn-dark w-50">
+                                <i class="fa-solid fa-eye fs-icon"></i>
+                                Xem chi tiết
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center" th:if="${products.page.totalPages > 1}">
+                        <li class="page-item" th:classappend="${!products.paging.prevEnable ? 'object--disapper' : ''}">
+                            <a class="page-link" th:href="${@repOrAddParam.apply('page', '1')}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:classappend="${!products.paging.prevEnable ? 'object--disapper' : ''}">
+                            <a class="page-link"  th:href="${@repOrAddParam.apply('page', ''+__${products.paging.getPageNumber()-1}__+'' )}">
+                                <span aria-hidden="true">‹</span>
+                            </a>
+                        </li>
+
+                        <li class="page-item" th:each="item : ${products.paging.getItems()}"
+                            th:classappend="${item.index == products.paging.pageNumber ? 'active' : ''}">
+                            <a class="page-link" th:href="${@repOrAddParam.apply('page', ''+__*{item.index}__+'')}" th:text="*{item.index}">1</a>
+                        </li>
+
+                        <li class="page-item" th:classappend="${!products.paging.nextEnable ? 'object--disapper' : ''}">
+                            <a class="page-link" th:href="${@repOrAddParam.apply('page', ''+__${products.paging.getPageNumber()+1}__+'' )}">
+                                <span aria-hidden="true">›</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:classappend="${!products.paging.nextEnable ? 'object--disapper' : ''}">
+                            <a class="page-link" th:href="${@repOrAddParam.apply('page', ''+__${products.page.totalPages}__+'')}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- end body -->
+
+    <div th:replace="fragmentes :: footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script th:src="@{/assets/js/main.js}"></script>
+</body>
+    
+</html>

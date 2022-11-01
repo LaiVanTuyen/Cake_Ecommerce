@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmentes :: html_head ('Trang cá nhân')">
+</head>
+<body>
+    <!-- back to top -->
+    <div th:replace="fragmentes :: back_to_top"></div>
+    <!-- header -->
+    <div th:replace="fragmentes :: header"></div>
+
+    <!-- start nav -->
+    <nav th:replace="fragmentes:: navbar"></nav>
+    
+
+    <!-- start body -->
+    <div class="body py-5">
+        <div class="container">
+            <div class="main ">
+                <div class="profile-main profile-infor mb-4 pb-2">
+                    <h4 class="fw-normal" data-bs-toggle="collapse" role="button"
+                    aria-controls="profile-collapse" aria-expanded="false" href="#profile-collapse">
+                        Thông tin tài khoản                       
+                    </h4>
+                    <div class="profile-detail w-100 collapse show" id="profile-collapse">
+                        <div class="ps-3 w-100 py-2 row d-flex">
+                            <div class="profile-detail-item py-1 col-sm-6 col-md-6 col-xl-3">
+                                <h6 class="d-inline pe-1">Họ tên: </h6>
+                                <h6 class="fw-normal d-inline" th:text="${user.fullname}" id="fullname-user">Anh Duc</h6>
+                            </div>
+                            <div class="profile-detail-item py-1 col-sm-6 col-md-6 col-xl-3">
+                                <h6 class="d-inline pe-1">Tên tài khoản: </h6>
+                                <h6 class="fw-normal d-inline" th:text="${user.username}">pad1092</h6>
+                            </div>
+                            <div class="profile-detail-item py-1 col-sm-6 col-md-6 col-xl-3">
+                                <h6 class="d-inline pe-1">Số điện thoại:</h6>
+                                <h6 class="fw-normal d-inline" th:text="${user.phoneNumber}" id="phonenumber-user">0364743279</h6>
+                            </div>
+                            <div class="profile-detail-item py-1 col-sm-6 col-md-6 col-xl-3">
+                                <h6 class="d-inline pe-1">Điểm tích lũy: </h6>
+                                <h6 class="fw-normal d-inline" th:text="${user.point}">0</h6>
+                            </div>
+                        </div>
+                        <div class="profile-detail-btn ps-3">
+                            <!-- change infor -->
+                            <span role="button" data-bs-toggle="modal" data-bs-target='#changeInfoModal' 
+                            class="text-dark">Thay đổi thông tin</span>
+
+                            <!-- change infor modal -->
+                            <div class="modal fade " id="changeInfoModal" aria-hidden="true" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content change-infor-modal">
+                                    <form id="updateUserInfor" class="needs-validation" novalidate th:value="${user.userId}">
+                                        <div class="modal-header border-bottom-0">
+                                            <h5>Thay đổi thông tin</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-input">
+                                                <input class="form-control my-3 input " type="text" name="" minlength="3" 
+                                                maxlength="20" placeholder="Họ tên" required>
+
+                                                <input class="form-control my-3 input " type="tel" name="" minlength="10" 
+                                                maxlength="10" placeholder="Số điện thoại" required>
+
+                                                <div class="invalid-feedback" id="valid-infor">Hãy nhập đủ thông tin vào các trường</div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer border-top-0">
+                                            <button type="button" data-bs-dismiss="modal" class="btn btn-outline-dark me-2">Đóng</button>
+                                            <button type="submit" id="submitUpdateInfor" class="btn btn-outline-dark">Thay đổi</button>
+                                        </div>
+                                    </form>
+                                  </div>
+                                </div>                            
+                            </div>
+                            <br>
+
+                            <!-- change password -->
+                            <span role="button" class="text-decoration-none text-dark" data-bs-toggle="modal"
+                            data-bs-target="#changePassModal">Thay đổi mật khẩu</span>
+                            <!-- change pass modal -->
+                            <div class="modal fade " id="changePassModal" aria-hidden="true" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content change-infor-modal">
+                                    <form action="" method="post" id="changePassFrm" th:value="*{user.userId}">
+                                        <div class="modal-header border-bottom-0 py-2">
+                                            <h5 class="pt-2">Thay đổi mật khẩu</h5>
+                                        </div>
+                                        <div class="modal-body py-2">
+                                            <div class="form-input">
+                                                <input class="form-control my-3 input " type="password" name="" minlength="6"
+                                                maxlength="20" placeholder="Mật khẩu cũ" required oninput="passwordVerify(value)" onchange="checkVerifySub()">
+                                                <span class="verifyPass-feedback text-danger" style="display: none">Mật khẩu cũ không chính xác</span>
+
+                                                <input class="form-control my-3 input " type="password" name="" minlength="6" 
+                                                maxlength="20" placeholder="Mật khẩu mới" id="password" required
+                                                oninput="checkChangePass()" onchange="checkVerifySub()">
+
+                                                <input class="form-control my-3 input " type="password" name="" minlength="6" 
+                                                maxlength="20" placeholder="Nhập lại mật khẩu mới" id="passwordComfirm" 
+                                                oninput="checkChangePass()" onchange="checkVerifySub()"
+                                                required>
+                                                <span class="changePass-feedback text-pri"></span>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer border-top-0 py-2">
+                                            <button type="button" data-bs-dismiss="modal" class="btn btn-outline-dark me-2">Đóng</button>
+                                            <button type="submit" class="btn btn-outline-dark btn-changePass" disabled>Thay đổi</button>
+                                        </div>
+                                    </form>
+                                  </div>
+                                </div>                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-main profile-address mb-4 pb-2" th:attr="user-id=${user.userId}">
+                    <h4 class="fw-normal" data-bs-toggle="collapse" role="button"
+                    aria-controls="address-collapse" aria-expanded="false" href="#address-collapse">
+                        Địa chỉ nhận hàng
+                    </h4>
+                    <div class="address-detail ps-3 py-2 pb-2 collapse show" id="address-collapse">
+                        <div class="table-responsive-xl table-profile">
+                            <table class="table table-hover" id="address-table">
+                                <thead>
+                                    <tr>
+                                        <th style="min-width: 150px;" scope="col" class="ps-0">Họ tên</th>
+                                        <th style="min-width: 200px;" scope="col">Địa chỉ</th>
+                                        <th style="min-width: 200px;" scope="col">Phường xã</th>
+                                        <th style="min-width: 200px;" scope="col">Quận huyện</th>
+                                        <th style="min-width: 200px;" scope="col">Tỉnh thành phố</th>
+                                        <th style="min-width: 120px;" scope="col">Số điện thoại</th>
+                                        <th style="min-width: 100px;" scope="col">Thao tác</th>                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="address: ${user.getUserAddressList()}" th:attr="address-id=*{address.addressId}">
+                                        <td class="ps-0" th:text="*{address.receiverName}">Đức Phạm</td>
+                                        <td th:text="*{address.detail}">KTX B5 HVCN Bưu chính Viễn thông</td>
+                                        <td th:text="*{address.ward}" class="text-capitalize">mộ lao</td>
+                                        <td th:text="*{address.district}" class="text-capitalize">Hà đông</td>
+                                        <td th:text="*{address.province}" class="text-capitalize">Hà nội</td>
+                                        <td th:text="*{address.phoneNumber}">0364743279</td>
+                                        <td>
+                                            <span role="button" class="text-primary me-2" 
+                                            data-bs-toggle="modal" data-bs-target="#changeAddressModal">Sửa</span>
+                                            <span role="button" class="text-decoration-none text-danger">Xóa</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- change address modal -->
+                            <div class="modal fade" id="changeAddressModal" tabindex="-1" aria-hidden="true" >
+                                <div class="modal-dialog modal-dialog-centered" >
+                                    <div class="modal-content">
+                                        <form  class="needs-validation" novalidate id="change-address-frm">
+                                            <div class="modal-header border-bottom-0 py-2">
+                                                <h5 class="pt-2">Thay đổi địa chỉ</h5>
+                                            </div>
+                                            <div class="modal-body py-2">
+                                                <input type="text" class="form-control auth-form-input input" name="" id="" placeholder="Họ tên người nhận"
+                                                minlength="10" maxlength="10" required>
+                                                <select class="form-select address-select auth-form-input input" 
+                                                id="province-select" onchange="addDistricts(value)" required>
+                                                    <option value="" selected >Chọn Tỉnh/Thành phố</option>
+                                                </select>
+
+                                                <select class="form-select address-select auth-form-input input" 
+                                                id="district-select" onchange="addWards(value)" required>
+                                                    <option selected value="">Chọn Quận/Huyện</option>
+                                                </select>
+
+                                                <select class="form-select address-select auth-form-input input" id="ward-select" required>
+                                                    <option selected value="">Chọn Phường/Xã</option>
+                                                </select>
+
+                                                <input type="text" class="form-control auth-form-input input" name=""  placeholder="Địa chỉ chi tiết"
+                                                minlength="5" maxlength="50" required>
+
+                                                <input type="text" class="form-control auth-form-input input" name=""  placeholder="Số điện thoại"
+                                                minlength="10" maxlength="10" required>
+                                                <div class="invalid-feedback" id="valid-change-address">Hãy nhập đủ thông tin vào các trường</div>
+                                            </div>
+                                            <div class="modal-footer border-top-0">
+                                                <button type="button" data-bs-dismiss="modal" class="btn btn-outline-dark me-2">Đóng</button>
+                                                <button type="submit" class="btn btn-outline-dark btn-changeAddress">Thay đổi</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="add-address-profile">
+                            <span role="button" data-bs-toggle="modal" data-bs-target="#addAddress-modal" class="">Thêm địa chỉ</span>
+                            <!-- add address modal -->
+                            <div class="modal fade" id="addAddress-modal" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" >
+                                    <div class="modal-content">
+                                        <form  class="needs-validation" novalidate id="addAddress-frm">
+                                            <div class="modal-header border-bottom-0 py-2">
+                                                <h5 class="pt-2">Thêm địa chỉ</h5>
+                                            </div>
+                                            <div class="modal-body py-2">
+                                                <input type="text" class="form-control auth-form-input input" name="" placeholder="Họ tên người nhận"
+                                                       minlength="2" maxlength="50" required id="address-receiver">
+
+                                                <select class="form-select address-select auth-form-input input" 
+                                                id="province-select-1" onchange="addDistricts(value)" required>
+                                                    <option value="" selected >Chọn Tỉnh/Thành phố</option>
+                                                </select>
+
+                                                <select class="form-select address-select auth-form-input input" 
+                                                id="district-select-1" onchange="addWards(value)" required>
+                                                    <option selected value="">Chọn Quận/Huyện</option>
+                                                </select>
+
+                                                <select class="form-select address-select auth-form-input input" id="ward-select-1" required>
+                                                    <option selected value="">Chọn Phường/Xã</option>
+                                                </select>
+
+                                                <input type="text" class="form-control auth-form-input input" name=""  placeholder="Địa chỉ chi tiết"
+                                                minlength="5" maxlength="50" required id="address-detail">
+
+                                                <input type="text" class="form-control auth-form-input input" name=""  placeholder="Số điện thoại"
+                                                minlength="10" maxlength="10" required id="address-phone">
+                                                <div class="invalid-feedback" id="valid-address">Hãy nhập đủ thông tin vào các trường</div>
+                                            </div>
+                                            <div class="modal-footer border-top-0">
+                                                <button type="button" data-bs-dismiss="modal" class="btn btn-outline-dark me-2">Đóng</button>
+                                                <button type="submit" class="btn btn-outline-dark" id="addAddressBtn"
+                                                onclick="addAdress()">Thêm</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-main profile-order mb-4 pb-2">
+                    <h4 class="fw-normal" data-bs-toggle="collapse" role="button"
+                    aria-controls="order-collapse" aria-expanded="false" href="#order-collapse">
+                        Lịch sử mua hàng
+                    </h4>
+                    <div class="order-detail ps-3 collapse py-2 pt-3 pb-2" id="order-collapse">
+                        <div class="table-responsive-xl table-profile">
+                            <table class="table table-hover" id="order-table">
+                                <thead>
+                                    <tr>
+                                        <th style="min-width: 100px;" scope="col" class="ps-0">STT</th>
+                                        <th style="min-width: 200px;" scope="col">Mã đơn hàng</th>
+                                        <th style="min-width: 200px;" scope="col">Trạng thái</th>
+                                        <th style="min-width: 170px;" scope="col">Ngày đặt</th>
+                                        <th style="min-width: 200px;" scope="col">Tổng thanh toán</th>        
+                                        <th style="min-width: 120px;" scope="col">Thao tác</th>                                      
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr th:each="orderDTO : ${orderList}" class="order-item">
+                                            <th class="ps-0" scope="row" th:text="${orderList.indexOf(orderDTO) + 1}">1</td>
+                                            <td th:text="*{orderDTO.orderId}">32443</td>
+                                            <td th:if="*{orderDTO.status == 0}" class="text-primary order-status">Chờ xác nhận</td>
+                                            <td th:if="*{orderDTO.status == 1}" class="text-success" order-status>Đang giao hàng</td>
+                                            <td th:if="*{orderDTO.status == 2}" class="text-danger">Đã hủy</td>
+                                            <td th:text="*{orderDTO.buyingDate}">12/09/2002</td>
+                                            <td>
+                                                <span th:text="*{orderDTO.payTotalCurrency}">343.000</span>
+                                                <i class="fa-solid fa-dong-sign"></i>
+                                            </td>
+                                            <td>
+                                                <a th:href="@{'/user/order/' + *{orderDTO.orderId}}" class="text-decoration-none text-primary me-2">Chi tiết</a>
+                                                <span role="button" class="text-danger order-cancel" th:attr="order-id = *{orderDTO.orderId}">
+                                                    Hủy
+                                                </span>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- end body -->
+
+
+    
+
+
+
+
+    </div>
+
+
+    <!-- start footer -->
+    <div th:replace="fragmentes :: footer"></div>
+    <!-- end footer -->
+    <script th:src="@{/assets/js/main.js}"></script>
+    <script th:src="@{/assets/js/addressAPI.js}"></script>
+    <script th:src="@{/assets/js/profileJS.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+    
+</html>

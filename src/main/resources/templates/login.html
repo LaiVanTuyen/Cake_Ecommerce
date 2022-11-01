@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmentes :: html_head ('Đăng nhập')">
+</head>
+<body>
+    <!-- back to top -->
+    <div th:replace="fragmentes :: back_to_top"></div>
+    <!--    header-->
+    <div th:replace="fragmentes :: header"></div>
+    <!-- nav -->
+    <nav th:replace="fragmentes :: navbar"></nav>
+    
+
+    <!-- start body -->
+    <div class="body py-5">
+        <div class="container">
+                <!-- login form -->
+                <form th:action="@{/login}" method="POST" class="auth-form col-sm-12 col-lg-6">
+                    <div class="auth-form-header">
+                        <a href="/login" class="auth-form-header-link">
+                            <h4  class="fw-normal mb-0">ĐĂNG NHẬP</h4>
+                        </a>
+                        <a href="/signup" class="auth-form-header-link">
+                            <h4 class="fw-light mb-0">ĐĂNG KÝ</h4>
+                        </a>
+                    </div>
+                    <div class="auth-form-body">
+                        <div class="auth-form-group">
+                            <input type="text" class="form-control auth-form-input" name="username"  placeholder="Tên tài khoản">
+                            <input type="password" class="form-control auth-form-input" name="password"  placeholder="Mật khẩu">
+                            <p class="text-danger" th:if="${param.error}">Tên tài khoản hoặc mật khẩu không chính xác!</p>
+                        </div>
+                        <div class="auth-form-link">
+                            <a href="/reset" class="text-decoration-none text-dark">
+                                Quên mật khẩu?
+                            </a>
+                        </div>
+                    </div>
+                    <div class="auth-form-footer">
+                        <button type="submit" class="btn btn-dark btn-auth-form">Đăng nhập</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    <!-- end body -->
+
+
+    <!-- start footer -->
+    <div th:replace="fragmentes :: footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="./assets/js/main.js"></script>
+</body>
+    
+</html>

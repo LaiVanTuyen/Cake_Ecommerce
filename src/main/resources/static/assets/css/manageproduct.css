@@ -1,0 +1,39 @@
+.add-product-table td{
+    text-transform: uppercase;
+}
+.add-product-table td:first-child{
+    text-transform: capitalize;
+}
+.add-product-qty input{
+    font-size: 14px;
+}
+.add-product-qty-control{
+    min-height: 54px;
+}
+#single-color-body{
+    font-size: 14px;
+}
+#ap-form .form-control{
+    font-size: 14px;
+}
+.add-product-table table{
+    font-size: 14px;
+}
+
+#edit-product-table img{
+    width: 40px;
+}
+#edit-product-table{
+    font-size: 14px;
+    max-height: 500px;
+}
+#edit-product-table td{
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.input{
+    border: 1px solid #000000;
+}
+.form-control:focus {
+    border: 1px solid #000000;
+}

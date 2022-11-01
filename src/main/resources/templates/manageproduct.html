@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragmentes :: html_head ('Quản lý sản phẩm')"></head>
+<head>
+    <link rel="stylesheet" th:href="@{/assets/css/manage.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/manageproduct.css}">
+    <!-- js -->
+    
+
+    
+</head>
+<body>
+    <!-- back to top -->
+    <div th:replace="fragmentes :: back_to_top"></div>
+    <!-- header -->
+    <div th:replace="fragmentes :: header"></div>
+    <!-- end header -->
+
+    <!-- start nav -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-white">
+        <div class="container">
+            <a th:href="@{/}" class="navbar-brand">
+                <img 
+                    class="d-inline-block" 
+                    th:src="@{/assets/img/logo.png}"
+                    alt="" width="180" height="60"
+                 />
+
+            </a>          
+            <div class="container text-center">
+                <h5 class="w-100 my-2">Quản lý CodeFresher</h5>           
+            </div>
+        </div>
+    </nav>
+    <!-- end nav -->
+
+
+    <!-- start body -->
+    <div class="body py-2">
+        <div class=" d-flex justify-content-between w-100">
+            <div class="control">
+                <div class="control-header ps-3 py-3 mb-2 ">
+                    Xin chào 
+                    <h6 class="d-inline"  th:value="${#request.remoteUser}"> [[${#request.remoteUser}]]</h6>
+                    !
+                </div>
+                <div class="control-body  py-2 pb-1">
+                    <div class="control-list">
+                        <a th:href="@{/manage}"  class="text-decoration-none ">
+                            <div class="control-item py-3 ps-3">
+                                <i class="fa-solid fa-chart-line"></i>
+                                <span>Tổng quan</span>
+                            </div>
+                        </a>
+                        <a th:href="@{/manage/promotion}" class="text-decoration-none">
+                            <div class="control-item py-3 ps-3">
+                                <i class="fa-solid fa-tag"></i>
+                                <span>Quản lý CTKM</span>
+                            </div>
+                        </a>
+                        <a th:href="@{/manage/product}" class="text-decoration-none">
+                            <div class="control-item py-3 ps-3 object--border-left ">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span>Quản lý sản phẩm</span>
+                            </div>
+                        </a>
+                        <a th:href="@{/manage/order}" class="text-decoration-none">
+                            <div class="control-item py-3 ps-3">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span>Quản lý đơn hàng</span>
+                            </div>
+                        </a>
+                        <a href="/manageanalyst.html" class="text-decoration-none">
+                            <div class="control-item py-3 ps-3">
+                                <i class="fa-solid fa-chart-line"></i>
+                                <span>Thống kê</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="control-footer ps-3 py-3 mb-2">
+
+                </div>
+            </div>
+            <div class="content">
+                <div class="content-header ps-3 py-3 mb-2">
+                    <h5 class="text-uppercase">Quản lý sản phẩm</h5>
+                </div>
+                <div class="content-body pt-3">
+                    <div class="content-body-header">
+                        <span class="header-item mb-0 py-2 object--border-bottom">Thêm sản phẩm</span>
+                        <span class="header-item mb-0 py-2">Quản lý sản phẩm</span>
+                    </div>
+                    <div class="content-body-main d-flex justify-content-center">
+
+                        <!-- add product -->
+                        <div class="body-item ps-3 py-5 w-100">
+                            <form id="ap-form" name="add-product-form" class="w-75 d-flex flex-column m-auto">
+                                <div class="d-flex justify-content-between my-4">
+                                    <div class=" w-50">
+                                        <span class="fw-bold">Tên sản phẩm</span>
+                                        <input type="text" name="name" id="ap-name-input" placeholder="Nhập tên sản phẩm" class="form-control input mt-2  clear">
+                                    </div>
+                                    <div class="w-50 ms-4">
+                                        <span class="fw-bold">Danh mục</span> <br>
+                                        <select  name="code" class="w-100 form-control input mt-2  clear" id="ap-cate-select">
+                                            <option value="" disabled selected>Chọn danh mục</option>
+                                            <option class="form-control input" value="GATEAUXkemtuoi">GATEAUX Kem Tươi</option>
+                                            <option class="form-control input" value="GATEAUXkembo">GATEAUX Kem bơ</option>
+                                            <option class="form-control input" value="VALENTINEtraitim">Bánh VALENTINE Trái Tim</option>
+                                            <option class="form-control input" value="banhmy">Bánh Mỳ</option>
+                                            <option class="form-control input" value="banhman">Bánh Mặn</option>
+                                            <option class="form-control input" value="cookies">COOKIES</option>
+                                            <option class="form-control input" value="minicake">MINI CAKE</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="my-4">
+                                    <span class="fw-bold">Giá(VNĐ)</span>
+                                    <input type="number" name="price" class="form-control input mt-2 clear" placeholder="Nhập giá" id="ap-price-input">
+                                </div>
+                                <div class="d-flex mt-4">
+                                    <div class="">                                 
+                                        <input type="radio" id="single-color-control" name="add-product-color">
+                                        <label for="single-color-control" class="">Sản phẩm một màu</label>
+                                    </div>
+                                    <div class="ms-5">                                 
+                                        <input type="radio" id="mutiple-color-control" name="add-product-color">
+                                        <label for="mutiple-color-control" class="">Sản phẩm nhiều màu</label>
+                                    </div>
+                                </div>
+
+                                <!-- single color -->
+                                <div id="single-color-body" hidden>
+                                    <div class="my-3 flex-column d-flex">
+<!--                                    add color-->
+                                        <span class="fw-bold">Thêm hình ảnh</span>
+                                        <table class="w-50" style="vertical-align:middle;" id="ap-img-table-sc">
+                                            <thead class="border-0">
+                                            <tr>
+                                                <th scope="col" style="width: 80%;"></th>
+                                                <th scope="col" style="width: 10%;"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="border-0">
+<!--                                            <tr>-->
+<!--                                                <td><input class="input form-control" type="file"></td>-->
+<!--                                                <td>-->
+<!--                                                    <i class="fa-solid fa-minus ms-2" role="button" id="ap-remove-img-btn-sc"></i>-->
+<!--                                                </td>-->
+<!--                                            </tr>-->
+
+                                            </tbody>
+                                        </table>
+                                        <div class="d-flex align-items-center w-50" id="ap-add-img-sc">
+                                            <input type="file" name="imageFile[]" class="form-control input my-2" id="ap-add-img-input-sc">
+                                            <i class="fa-solid fa-plus ms-4" role="button" id="ap-add-img-btn-sc"></i>
+                                        </div>
+                                    </div>
+
+<!--                                add qty    -->
+                                    <div class="my-4">
+                                        <span class="fw-bold">Nhập số lương</span>
+                                        <div id="ap-qty-singleColor" class="add-product-qty mt-2">
+                                            <div class="table-responsive w-50 add-product-table">
+                                                <table class="table-hover table" id="ap-qty-table-sc">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 45%;"  scope="col">Kích thước</th>
+                                                            <th style="width: 45%;"  scope="col">Số lương</th>
+                                                            <th style="width: 10%;"  scope="col">Xóa</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+<!--                                                        <tr>-->
+<!--                                                            <td class="text-uppercase">X</td>-->
+<!--                                                            <td class="text-uppercase">12</td>-->
+<!--                                                            <td>-->
+<!--                                                                <i class="fa-solid fa-minus" role="button" id="ap-remove-qty-btn-sc"></i>-->
+<!--                                                            </td>-->
+<!--                                                        </tr>-->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="add-product-qty-control d-flex align-items-center w-50">
+                                                <div class="me-2">
+                                                    <input type="text" placeholder="Nhập kích thước" name="size" id="ap-size-input-sc" class="form-control input">    
+                                                </div>
+                                                <div class="ms-2">
+                                                    <input type="number" placeholder="Nhập số lượng" name="quantity" id="ap-qty-input-sc" class="form-control input">    
+                                                </div>
+                                                <i class="fa-solid fa-plus ms-4" role="button" id="ap-add-qty-btn-sc"></i>
+                                            </div>
+                                        </div>
+
+                                        
+                                    </div>
+                                </div>
+
+                                <!-- mutil color -->
+                                <div id="mutil-color-body" hidden>
+                                    <div class="d-flex">
+                                        <div class="my-3 pe-3 border-end border-secondary" id="ap-img-mutilColor">
+                                            <span class="fw-bold">Thêm hình ảnh</span>
+                                            <div class="table-responsive add-product-table">
+                                                <table class="table-hover table" id="ap-mc-img-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 25%;"  scope="col">Nhóm màu</th>
+                                                            <th style="width: 65%;"  scope="col">Hình ảnh</th>
+                                                            <th style="width: 10%;"  scope="col">Xóa</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody style="vertical-align: middle">
+                                                        <tr>
+<!--                                                            <td>Ä�en</td>-->
+<!--                                                            <td>img.jpg</td>-->
+<!--                                                            <td>-->
+<!--                                                                <i class="fa-solid fa-minus" role="button" id="add-mc-prouct-qty-remove"></i>-->
+<!--                                                            </td>-->
+<!--                                                        </tr>-->
+<!--                                                        -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <div class="">
+                                                    <input id="ap-mc-cimg-input" type="text" name="color" class="form-control input my-2 ms-2" placeholder="Nhập màu">
+                                                </div>
+                                                <div class="" id="ap-mc-add-img">
+                                                    <input type="file" name="imageFile[]" class="form-control input my-2 me-2">
+                                                </div>
+                                                <i class="fa-solid fa-plus ms-3" role="button" id="ap-mc-add-img-btn"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-3 ms-3" id="ap-qty-mutilColor">
+                                            <span class="fw-bold">Nhập số lượng</span>                           
+                                            <div class="add-product-qty">
+                                                <div class="table-responsive add-product-table">
+                                                    <table class="table-hover table" id="ap-mc-qty-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 30%;"  scope="col">Nhóm màu</th>
+                                                                <th style="width: 30%;"  scope="col">Kích thước</th>
+                                                                <th style="width: 30%;"  scope="col">Số lượng</th>
+                                                                <th style="width: 10%;"  scope="col">Xóa</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+<!--                                                            <tr>-->
+<!--                                                                <td>Ä‘en</td>-->
+<!--                                                                <td>Xl</td>-->
+<!--                                                                <td>12</td>-->
+<!--                                                                <td>-->
+<!--                                                                    <i class="fa-solid fa-minus" role="button" id="ap-mc-remove-qty-btn"></i>-->
+<!--                                                                </td>-->
+<!--                                                            </tr>-->
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>                                         
+                                            </div>
+                                            <div class="add-product-qty-control d-flex align-items-center">
+                                                <div class="me-2">
+                                                    <input type="text" placeholder="Nhập nhóm màu" name="color" id="ap-mc-cqty-input" class="form-control input">
+                                                </div>
+                                                <div class="me-2">
+                                                    <input type="text" placeholder="Nhập kích thước" name="size" id="ap-mc-size-input" class="form-control input">
+                                                </div>
+                                                <div class="ms-2">
+                                                    <input type="number" placeholder="Nhập số lượng" name="quantity" id="ap-mc-qty-input" class="form-control input">
+                                                </div>
+                                                <i class="fa-solid fa-plus ms-2" role="button" id="ap-mc-add-qty-btn"></i>
+                                            </div>
+                                            <!-- mutil color -->
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                            </form>
+                            <div class="fw-bold text-danger ap-warn text-center py-3" hidden>Điền dủ thông tin</div>
+                            <div class="fw-bold text-success ap-success text-center py-3" hidden>Thêm thành công</div>
+                            <div class="w-75 d-flex justify-content-between m-auto mt-3">
+                                <button class="btn btn-outline-danger" id="ap-cancel-btn" style="width: 150px;">Hủy</button>
+                                <button class="btn btn-outline-primary" id="ap-add-btn" style="width: 150px;">Thêm</button>
+                            </div>
+
+                        <!-- edit product -->
+                        
+
+                        <!-- remove product -->
+                        
+                    </div>
+
+
+                        <!-- edit product -->
+                        <div class="body-item px-4 py-5 w-100 object--disapper" id="">
+                            <h4 class="text-capitalize text-center">Danh sách sản phẩm </h4>
+                            <div class="d-flex justify-content-between">
+                                <div style="width: 20%;">
+                                    <select  name="code" class="w-100 form-control input mt-2  clear" id="ep-cate-select">
+                                        <option value="" disabled selected data-icon="fa-solid fa-angle-down"> Chọn danh mục</option>
+                                        <option class="form-control input" value="ALL">Tất cả</option>  
+                                        <option class="form-control input" value="GATEAUXkemtuoi">GATEAUX Kem Tươi</option>
+                                        <option class="form-control input" value="GATEAUXkembo">GATEAUX Kem bơ</option>
+                                        <option class="form-control input" value="VALENTINEtraitim">Bánh VALENTINE Trái Tim</option>
+                                        <option class="form-control input" value="banhmy">Bánh Mỳ</option>
+                                        <option class="form-control input" value="banhman">Bánh Mặn</option>
+                                        <option class="form-control input" value="cookies">COOKIES</option>
+                                        <option class="form-control input" value="minicake">MINI CAKE</option>
+                                    </select>
+                                </div>
+                                <div class="d-flex">
+                                    <input id="ep-search-input" type="text" class="form-control input" placeholder="Tìm kiếm sản phẩm" style="border-right: 0;">
+                                    <button id="ep-search-btn" type="submit" class="btn btn-outline-dark rounded-0">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="table-responsive mt-4 border">
+                                <table class="table-hover table align-middle" id="edit-product-table">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 10px;" scope="col">STT</th>
+                                        <th style="width: 150px;" scope="col">Tên sản phẩm</th>
+                                        <th style="width: 100px;" scope="col">Mã sản phẩm</th>
+                                        <th style="width: 70px;" scope="col">Gía</th>
+                                        <th style="width: 70px;" scope="col">so luong</th>
+                                        <th style="width: 100px;" scope="col">Hành động</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- modal product infor -->
+                            <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModal" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div class="text-center">
+                                                <h5 class="modal-title d-inline" id="exampleModalLongTitle">Thông tin sản phẩm</h5>
+                                                <!-- order id -->
+                                                <h5 class="d-inline text-secondary text-uppercase" id="ep-product-code">QS03459</h5>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5>Thông tin</h5>
+                                            <div class="ps-3 pb-2">
+                                                <div class="my-2">
+                                                    <h6 class="d-inline">Tên sản phẩm: </h6>
+                                                    <input id="ep-product-name-input" class="border-0" type="text"
+                                                           value="Ã�o phÃ´ng nam hÃ n quá»‘c" readonly="true" oninput="this.size = this.value.length">
+                                                    <span role="button" class="text-primary" id="ep-product-name-btn">Sửa</span>
+                                                </div>
+                                                <div class="my-2">
+                                                    <h6 class="d-inline">Giá</h6>
+                                                    <input id="ep-product-price-input" class="border-0" type="number"
+                                                           value="200,000" readonly="true" oninput="this.size = this.value.length">
+                                                    <span role="button" class="text-primary" id="ep-product-price-btn">Sửa</span>
+                                                </div>
+                                            </div>
+                                            <h5>Số lượng</h5>
+                                            <div class="ps-3 pb-4 table-responsive">
+                                                <table class="table table-hover" id="ep-product-table">
+                                                    <thead>
+                                                    <th scope="col">Kích thước</th>
+                                                    <th scope="col">Màu sắc</th>
+                                                    <th scope="col">Số lượng</th>
+                                                    <th scope="col">Hoạt động</th>
+                                                    </thead>
+                                                    <tbody>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="ep-update-product-infor">Lưu</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+<!--                            change prouct qty modal-->
+                            <div class="modal fade" id="ep-edit-qty-modal" tabindex="-1" role="dialog"
+                            aria-labelledby="ep-edit-qty-modal" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header border-0">
+                                            <p class="text-center text-capitalize fw-bold">Thay đổi thông tin số lượng sản phẩm</p>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <div class="d-flex justify-content-between">
+                                                <input type="text"  class="form-control input mx-2" id="ep-edit-qty-size" placeholder="Nhập kích thước">
+                                                <input type="text"  class="form-control input mx-2" id="ep-edit-qty-color" placeholder="Nhập phân loại">
+                                                <input type="number"  class="form-control input mx-2" id="ep-edit-qty-qty" placeholder="Nhập số lượng">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer border-0 d-flex justify-content-between">
+                                            <button type="button" class="btn btn-secondary w-25" data-bs-dismiss="modal">Đóng</button>
+                                            <button type="button" class="btn btn-primary w-25" data-bs-dismiss="modal" id="ep-update-qty-btn">Xong</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <!-- <div class="content-footer ps-3 py-2 mb-1">
+                    ok
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+        <div th:replace="fragmentes :: delete-confirm"></div>
+    <!-- end body -->
+
+   
+
+    <!-- jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script th:src="@{/assets/js/main.js}"></script>
+    <script th:src="@{/assets/js/manage.js}"></script>
+    <script th:src="@{/assets/js/manageproduct.js}"></script>
+
+</body>
+    
+</html>
