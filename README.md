@@ -1,1 +1,1 @@
-# backendApiEmployee
+# Developing an E-commerce Website that allows the Manager to manage promotions, products and orders. Allowcustormer to sigup/sign in, forget password, manage their account, add items to cart and checkout.
